@@ -2,6 +2,8 @@ package com.wayster.minhasfinancasapp.Entity;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 import javax.persistence.*;
 
 @Table(name = "usuarios")
@@ -24,6 +26,8 @@ public class UserEntity {
     private String email;
     @Column
     private String password;
+    @Column(name = "data_cadastro")
+    private LocalDate dataCadastro;
 
 
 }

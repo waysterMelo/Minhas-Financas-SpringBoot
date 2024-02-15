@@ -1,20 +1,21 @@
 package com.wayster.minhasfinancasapp.Service.impl;
 
 import com.wayster.minhasfinancasapp.Entity.UserEntity;
+import com.wayster.minhasfinancasapp.Exception.ErroAutentificacao;
 import com.wayster.minhasfinancasapp.Exception.RegraDeNegocioException;
 import com.wayster.minhasfinancasapp.Repositories.UserRepository;
 import com.wayster.minhasfinancasapp.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-        @Autowired
+
         private UserRepository userRepository;
 
 
-
+        
         public UserServiceImpl(UserRepository repository) {
             super();
             this.userRepository = repository;
@@ -28,7 +29,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity authenticated(String email, String senha) {
-        return null;
+        Optional<UserEntity> usuario =  userRepository.findByEmail(email);
+        if (!usuario.isPresent()) {
+            throw new ErroAutentificacao("Usuário não encontrado para o email informado."); 
+        }
+
+        boolean senhasBatem = usuario.get().getPassword() == senha;
+
+        if (!senhasBatem) {
+            throw new ErroAutentificacao("Senha inválida.");
+            
+        }
+        return usuario.get();
     }
 
     @Override
