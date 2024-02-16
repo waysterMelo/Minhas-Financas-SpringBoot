@@ -2,7 +2,6 @@ package com.wayster.minhasfinancasapp.Entity;
 
 
 import lombok.*;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.convert.Jsr310Converters;
 
 import javax.persistence.*;
@@ -10,12 +9,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Table(name = "lancamentos")
-@EntityScan
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 public class Lancamentos {
 
 
