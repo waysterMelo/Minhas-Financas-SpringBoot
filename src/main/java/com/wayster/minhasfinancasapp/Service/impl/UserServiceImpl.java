@@ -14,8 +14,6 @@ public class UserServiceImpl implements UserService {
 
         private UserRepository userRepository;
 
-
-        
         public UserServiceImpl(UserRepository repository) {
             super();
             this.userRepository = repository;
@@ -52,9 +50,11 @@ public class UserServiceImpl implements UserService {
         }
 
     @Override
-    public Optional<UserEntity> obterUserId(long id) {
-       return userRepository.findById(id);
+    public Optional<UserEntity> obterUserId(Long id) {
+       return  userRepository.findById(id); 
     }
+
+   
 
         
 

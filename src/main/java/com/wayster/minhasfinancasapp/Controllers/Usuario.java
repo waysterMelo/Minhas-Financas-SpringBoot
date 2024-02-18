@@ -6,6 +6,9 @@ import com.wayster.minhasfinancasapp.Exception.ErroAutentificacao;
 import com.wayster.minhasfinancasapp.Exception.RegraDeNegocioException;
 import com.wayster.minhasfinancasapp.Repositories.UserRepository;
 import com.wayster.minhasfinancasapp.Service.UserService;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/usuarios")
 public class Usuario {
-
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     UserService userService;
@@ -36,7 +36,7 @@ public class Usuario {
         UserEntity newUser = new UserEntity();
         copyDtoToEntity(usuarioDto, newUser);
         try {
-            newUser = userRepository.save(newUser);
+            newUser = userService.saveUser(newUser); 
             return new ResponseEntity<>(newUser, HttpStatus.CREATED);
         }catch (RegraDeNegocioException ex){
             return  ResponseEntity.badRequest().body(ex.getMessage());

@@ -4,10 +4,15 @@ package com.wayster.minhasfinancasapp.Service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaBuilder.Case;
 import javax.transaction.Transactional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.wayster.minhasfinancasapp.Entity.Lancamentos;
 import com.wayster.minhasfinancasapp.Entity.StatusLancamento;
@@ -47,7 +52,6 @@ public class LancamentosServicesImpl implements LancamentosService {
     }
 
     @Override
-    @Transactional
     public List<Lancamentos> buscar(Lancamentos lancamentoFiltro) {
         Example<Lancamentos> example = Example.of(lancamentoFiltro,
                 ExampleMatcher.matching()
@@ -84,6 +88,38 @@ public class LancamentosServicesImpl implements LancamentosService {
         
     }
 
-    
+   @Override
+   public Optional<Lancamentos> obterPorId(Long id) {
+      return lancamentosRepository.findById(id);
+   }
+
+   @Override
+   @Transactional
+   public void atualizarStatus(Long id, StatusLancamento status) {
+      Lancamentos lancamentOptional = lancamentosRepository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException("LANCAMENTO NÃO ENCONTRADO"));
+      
+      if (!isValidStatus(status)) {
+         throw new RegraDeNegocioException("STATUS INVALIDO PARA LANÇAMENTOS ");
+      }
+
+      lancamentOptional.setStatusLancamento(status);
+      lancamentosRepository.save(lancamentOptional);
+   }
+
+
+   private boolean isValidStatus(StatusLancamento status) {
+      if (status == null) {
+         return false;
+      }
+      switch (status) {
+         case PENDENTE:
+         case EFETIVADO:
+         case CANCELADO:
+            return true;
+         default:
+            return false;
+      }
+   }
     
 }

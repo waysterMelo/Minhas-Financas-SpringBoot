@@ -1,6 +1,7 @@
 package com.wayster.minhasfinancasapp.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.wayster.minhasfinancasapp.Entity.Lancamentos;
 import com.wayster.minhasfinancasapp.Entity.StatusLancamento;
@@ -18,5 +19,9 @@ public interface LancamentosService {
     void atualizarStatus(Lancamentos lancamentos, StatusLancamento statusLancamento);
 
     void validar(Lancamentos lancamentos);
+
+    Optional<Lancamentos> obterPorId(Long id);
+
+    void atualizarStatus(Long id, StatusLancamento status);
     
 }

@@ -10,5 +10,5 @@ public interface UserService {
     UserEntity authenticated(String email, String senha);
     UserEntity saveUser(UserEntity user);
     void validarEmail(String email) throws RegraDeNegocioException;
-    Optional<UserEntity> obterUserId(long id);
+    Optional<UserEntity> obterUserId(Long id);
 }

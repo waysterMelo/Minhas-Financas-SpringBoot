@@ -3,7 +3,7 @@ package com.wayster.minhasfinancasapp.Dtos;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.wayster.minhasfinancasapp.Entity.Lancamentos;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LancamentosDto {
+public class LancamentosUpdateDto {
 
 private Long id;
 private String descricao;
@@ -24,6 +24,10 @@ private Integer ano;
 private Long usuario;
 private String tipo;
 private String status;
-private LocalDate dataCadastro = LocalDate.now();
+private LocalDate dataCadastro;
+private LocalDate dataModificacao = LocalDate.now(); //update
+
+
+
 
 }
