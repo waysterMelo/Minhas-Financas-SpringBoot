@@ -1,5 +1,6 @@
 package com.wayster.minhasfinancasapp.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,4 +25,5 @@ public interface LancamentosService {
 
     void atualizarStatus(Long id, StatusLancamento status);
     
+    BigDecimal obterSaldoPorUsuario(Long id); 
 }

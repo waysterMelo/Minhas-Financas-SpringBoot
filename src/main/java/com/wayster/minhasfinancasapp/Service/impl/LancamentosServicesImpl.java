@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.wayster.minhasfinancasapp.Entity.Lancamentos;
 import com.wayster.minhasfinancasapp.Entity.StatusLancamento;
+import com.wayster.minhasfinancasapp.Entity.TipoLancamento;
 import com.wayster.minhasfinancasapp.Exception.RegraDeNegocioException;
 import com.wayster.minhasfinancasapp.Repositories.LancamentosRepository;
 import com.wayster.minhasfinancasapp.Service.LancamentosService;
@@ -92,34 +93,40 @@ public class LancamentosServicesImpl implements LancamentosService {
    public Optional<Lancamentos> obterPorId(Long id) {
       return lancamentosRepository.findById(id);
    }
-
-   @Override
-   @Transactional
-   public void atualizarStatus(Long id, StatusLancamento status) {
-      Lancamentos lancamentOptional = lancamentosRepository.findById(id)
-      .orElseThrow(() -> new EntityNotFoundException("LANCAMENTO NÃO ENCONTRADO"));
-      
-      if (!isValidStatus(status)) {
-         throw new RegraDeNegocioException("STATUS INVALIDO PARA LANÇAMENTOS ");
-      }
-
-      lancamentOptional.setStatusLancamento(status);
-      lancamentosRepository.save(lancamentOptional);
-   }
-
-
-   private boolean isValidStatus(StatusLancamento status) {
-      if (status == null) {
-         return false;
-      }
-      switch (status) {
-         case PENDENTE:
-         case EFETIVADO:
-         case CANCELADO:
-            return true;
-         default:
-            return false;
-      }
-   }
     
+
+@Override
+@Transactional
+public void atualizarStatus(Long id, StatusLancamento status) {
+    Lancamentos lancamento = lancamentosRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Lançamento não encontrado"));
+    if (!isValidStatus(status)) {
+        throw new RegraDeNegocioException("Status inválido para lançamentos");
+    }
+    lancamento.setStatusLancamento(status);
+    lancamentosRepository.save(lancamento);
+}
+
+private boolean isValidStatus(StatusLancamento status) {
+    return status != null && (status == StatusLancamento.PENDENTE || status == StatusLancamento.EFETIVADO || status == StatusLancamento.CANCELADO);
+}
+
+@Override
+@Transactional
+public BigDecimal obterSaldoPorUsuario(Long id) {
+  
+   BigDecimal receitas = lancamentosRepository.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.RECEITA.name());
+   BigDecimal despesas = lancamentosRepository.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.DESPESA.name());
+
+   if (receitas == null) {
+      receitas = BigDecimal.ZERO;
+   }
+
+   if (despesas == null) {
+      despesas = BigDecimal.ZERO;
+   }
+
+   return receitas.subtract(despesas);
+}
+
 }

@@ -1,4 +1,5 @@
 package com.wayster.minhasfinancasapp.Controllers;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -152,23 +153,7 @@ public class LancamentosController {
 	}
 
 
-    // @PutMapping("{id}/atualizar-status")
-    // public ResponseEntity atualizarStatus(@PathVariable("id") Long id, @RequestBody AtualizaStatusDto atualizaStatusDto){
-    //     return lancamentosService.obterPorId(id).map(entity -> {
-    //         StatusLancamento statusLancamento = StatusLancamento.valueOf(atualizaStatusDto.getStatus());
-    //         if (statusLancamento == null) {
-    //             return ResponseEntity.badRequest().body("NAO FOI POSSIVEL ATUALIZAR O STATUS");
-    //         }
-    //       try {
-    //         entity.setStatusLancamento(statusLancamento);
-    //         lancamentosService.atualizar(entity);
-    //         return ResponseEntity.ok().body(entity);
-    //       } catch (RegraDeNegocioException e) {
-    //         return ResponseEntity.badRequest().body(e.getMessage());
-    //       }
 
-    //     }).orElseGet(() -> new ResponseEntity<>("LANCAMENTO NAO ENCONTRADO NA BASE DE DADOS", HttpStatus.BAD_REQUEST));
-    // }
 
     @PutMapping("/{id}/atualizar-status")
     public ResponseEntity atualizarStatus(@PathVariable("id") Long id, @RequestBody AtualizaStatusDto atualizaStatusDto ){
@@ -182,6 +167,18 @@ public class LancamentosController {
         }catch(EntityNotFoundException ex){
             return ResponseEntity.badRequest().body("LANÇAMENTO NÃO ENCONTRADO NA BASE DE DADOS");
         }
+    }
+
+    @GetMapping("{id}/saldo")
+    public ResponseEntity obterSaldo(@PathVariable("id") Long id){
+            Optional<UserEntity> usuarios = userService.obterUserId(id);
+
+            if (!usuarios.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            BigDecimal saldo = lancamentosService.obterSaldoPorUsuario(id);
+            return ResponseEntity.ok(saldo);
+            
     }
 
 }
