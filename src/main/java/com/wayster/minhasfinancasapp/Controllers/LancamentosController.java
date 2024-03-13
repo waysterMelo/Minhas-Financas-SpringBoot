@@ -169,16 +169,6 @@ public class LancamentosController {
         }
     }
 
-    @GetMapping("{id}/saldo")
-    public ResponseEntity obterSaldo(@PathVariable("id") Long id){
-            Optional<UserEntity> usuarios = userService.obterUserId(id);
-
-            if (!usuarios.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            BigDecimal saldo = lancamentosService.obterSaldoPorUsuario(id);
-            return ResponseEntity.ok(saldo);
-            
-    }
+ 
 
 }

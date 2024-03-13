@@ -2,8 +2,6 @@ package com.wayster.minhasfinancasapp.Entity;
 
 
 import lombok.*;
-import org.springframework.data.convert.Jsr310Converters;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@Builder
 public class Lancamentos {
 
 

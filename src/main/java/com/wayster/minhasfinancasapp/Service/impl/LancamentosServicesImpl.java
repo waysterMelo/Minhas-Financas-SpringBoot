@@ -115,8 +115,8 @@ private boolean isValidStatus(StatusLancamento status) {
 @Transactional
 public BigDecimal obterSaldoPorUsuario(Long id) {
   
-   BigDecimal receitas = lancamentosRepository.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.RECEITA.name());
-   BigDecimal despesas = lancamentosRepository.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.DESPESA.name());
+   BigDecimal receitas = lancamentosRepository.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.RECEITA);
+   BigDecimal despesas = lancamentosRepository.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.DESPESA);
 
    if (receitas == null) {
       receitas = BigDecimal.ZERO;
