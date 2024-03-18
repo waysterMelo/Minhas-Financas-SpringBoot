@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.util.Assert;
 
 import com.wayster.minhasfinancasapp.Entity.Lancamentos;
 import com.wayster.minhasfinancasapp.Entity.StatusLancamento;
@@ -29,17 +30,55 @@ public class LancamentoRepositoryTest {
     @Autowired
     TestEntityManager entityManager;
 
-    @Test
+
+    private Lancamentos criarLancamento(){
+        return Lancamentos.builder().ano(2023)
+       .mes(2)
+       .descricao("lancamento qualquer")
+       .valor(BigDecimal.valueOf(10))
+       .tipo(TipoLancamento.RECEITA)
+       .statusLancamento(StatusLancamento.PENDENTE)
+       .dataCadastro(LocalDate.now())
+       .build();
+   }
+
+   @Test
+   public Lancamentos criarEPersistirUmLancamento(){
+        Lancamentos l = criarLancamento();
+       return entityManager.persist(l);
+   }
+    
+   @Test
     public void deveSalvarUmLancamento(){
-        Lancamentos lancamentos = Lancamentos.builder().ano(2023)
-        .mes(2)
-        .descricao("lancamento qualquer")
-        .valor(BigDecimal.valueOf(10))
-        .tipo(TipoLancamento.RECEITA)
-        .statusLancamento(StatusLancamento.PENDENTE)
-        .dataCadastro(LocalDate.now())
-        .build();
-        lancamentos = lancamentoRepository.save(lancamentos);
+        Lancamentos lancamentos = criarEPersistirUmLancamento();
         Assertions.assertNotNull(lancamentos.getId()); 
     }
+
+
+    @Test
+    public void deveDeletarUmLancamento(){
+        Lancamentos lancamentos = criarEPersistirUmLancamento();
+        lancamentoRepository.delete(lancamentos); 
+        Lancamentos lancamentosInexistente = entityManager.find(Lancamentos.class ,l.getId());
+        Assertions.assertNull(lancamentosInexistente);
+    }
+  
+
+    @Test
+    public void dveAtualizarUmLancamento(){
+        Lancamentos lancamentos = criarEPersistirUmLancamento();
+        lancamentos.setAno(2018);
+        lancamentos.setDescricao("teste atualizar");
+        lancamentos.setStatusLancamento(StatusLancamento.CANCELADO);
+
+        lancamentoRepository.save(lancamentos);
+
+        Lancamentos lancamentosAtualizado = entityManager.find(Lancamentos.class, lancamentos.getId());
+
+        Assertions.assertEquals(2018, lancamentosAtualizado.getAno());
+        Assertions.assertEquals("teste atualizar", lancamentosAtualizado.getDescricao());
+        Assertions.assertEquals(StatusLancamento.CANCELADO, lancamentosAtualizado.getStatusLancamento());  
+
+    }
+
 }
