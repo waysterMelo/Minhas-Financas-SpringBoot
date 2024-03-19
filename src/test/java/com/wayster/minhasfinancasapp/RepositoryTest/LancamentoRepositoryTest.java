@@ -11,8 +11,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.util.Assert;
-
 import com.wayster.minhasfinancasapp.Entity.Lancamentos;
 import com.wayster.minhasfinancasapp.Entity.StatusLancamento;
 import com.wayster.minhasfinancasapp.Entity.TipoLancamento;
@@ -31,7 +29,7 @@ public class LancamentoRepositoryTest {
     TestEntityManager entityManager;
 
 
-    private Lancamentos criarLancamento(){
+    public static Lancamentos criarLancamento(){
         return Lancamentos.builder().ano(2023)
        .mes(2)
        .descricao("lancamento qualquer")
@@ -42,7 +40,7 @@ public class LancamentoRepositoryTest {
        .build();
    }
 
-   @Test
+
    public Lancamentos criarEPersistirUmLancamento(){
         Lancamentos l = criarLancamento();
        return entityManager.persist(l);
@@ -54,15 +52,13 @@ public class LancamentoRepositoryTest {
         Assertions.assertNotNull(lancamentos.getId()); 
     }
 
-
     @Test
     public void deveDeletarUmLancamento(){
         Lancamentos lancamentos = criarEPersistirUmLancamento();
         lancamentoRepository.delete(lancamentos); 
-        Lancamentos lancamentosInexistente = entityManager.find(Lancamentos.class ,l.getId());
+        Lancamentos lancamentosInexistente = entityManager.find(Lancamentos.class ,lancamentos.getId());
         Assertions.assertNull(lancamentosInexistente);
-    }
-  
+    }  
 
     @Test
     public void dveAtualizarUmLancamento(){
@@ -80,5 +76,7 @@ public class LancamentoRepositoryTest {
         Assertions.assertEquals(StatusLancamento.CANCELADO, lancamentosAtualizado.getStatusLancamento());  
 
     }
+
+    
 
 }
