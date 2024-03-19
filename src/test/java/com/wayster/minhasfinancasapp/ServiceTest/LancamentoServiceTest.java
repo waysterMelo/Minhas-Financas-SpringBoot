@@ -11,6 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.wayster.minhasfinancasapp.Entity.Lancamentos;
 import com.wayster.minhasfinancasapp.Entity.StatusLancamento;
+import com.wayster.minhasfinancasapp.Exception.RegraDeNegocioException;
 import com.wayster.minhasfinancasapp.Repositories.LancamentosRepository;
 import com.wayster.minhasfinancasapp.RepositoryTest.LancamentoRepositoryTest;
 import com.wayster.minhasfinancasapp.Service.impl.LancamentosServicesImpl;
@@ -53,7 +54,15 @@ public class LancamentoServiceTest {
 
     @Test
     public void naoDeveSalvarUmLancamentoComErroValidacao(){
+          Lancamentos lancamentos =  LancamentoRepositoryTest.criarLancamento();
 
+          Mockito.doThrow(RegraDeNegocioException.class).when(lancamentosServicesImpl).validar(lancamentos);
+
+          Assertions.catchThrowableOfType(() -> lancamentosServicesImpl.salvar(lancamentos), RegraDeNegocioException.class);
+
+          Mockito.verify(lancamentosRepository, Mockito.never()).save(lancamentos);
     }
 
+
+    
 }
