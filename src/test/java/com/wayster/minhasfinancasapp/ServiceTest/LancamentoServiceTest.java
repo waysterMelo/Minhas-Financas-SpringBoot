@@ -63,6 +63,36 @@ public class LancamentoServiceTest {
           Mockito.verify(lancamentosRepository, Mockito.never()).save(lancamentos);
     }
 
+    @Test
+    public void deveAtualizarUmLancamento(){
+       Lancamentos lancamentos = LancamentoRepositoryTest.criarLancamento();
+        lancamentos.setId(1L);
+        lancamentos.setStatusLancamento(StatusLancamento.PENDENTE);
+
+        // Configura o mock para não fazer nada quando o método validar(lancamentos) for chamado
+        Mockito.doNothing().when(lancamentosServicesImpl).validar(lancamentos);
+
+        // Configura o mock para retornar o próprio lançamento quando o método save(lancamentos) for chamado
+        Mockito.when(lancamentosRepository.save(lancamentos)).thenReturn(lancamentos);
+
+        lancamentosServicesImpl.atualizar(lancamentos);
+
+         // Verifica se o método save(lancamentos) do repositório foi chamado exatamente uma vez
+        Mockito.verify(lancamentosRepository, Mockito.times(1)).save(lancamentos);
+
+
+    }
+
+    @Test
+    public void deveLancarErroAoTentarAtualizarLancamentoInexistente(){
+        Lancamentos lancamentos  = LancamentoRepositoryTest.criarLancamento();
+
+        Assertions.catchThrowableOfType(() -> lancamentosServicesImpl.atualizar(lancamentos), NullPointerException.class);
+
+        Mockito.verify(lancamentosRepository, Mockito.never()).save(lancamentos);
+
+    }
 
     
+
 }
