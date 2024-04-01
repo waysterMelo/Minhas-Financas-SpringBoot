@@ -1,14 +1,16 @@
 package com.wayster.minhasfinancasapp.ServiceTest;
 
+import java.util.Arrays;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Example;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import com.wayster.minhasfinancasapp.Entity.Lancamentos;
 import com.wayster.minhasfinancasapp.Entity.StatusLancamento;
 import com.wayster.minhasfinancasapp.Exception.RegraDeNegocioException;
@@ -93,6 +95,46 @@ public class LancamentoServiceTest {
 
     }
 
+    @Test
+    public void deveDeletarUmLancamento(){
+       Lancamentos l =   LancamentoRepositoryTest.criarLancamento();
+       l.setId(1L);
+
+       lancamentosServicesImpl.deletar(l);
+
+       Mockito.verify(lancamentosRepository).delete(l); 
+    }
+
+    @Test
+    public void deveLancarUmErroAoDeletarComIdInexistente() {
+        Lancamentos l = LancamentoRepositoryTest.criarLancamento();
+        
+        // Configuração do comportamento do mock
+        Mockito.doThrow(new NullPointerException()).when(lancamentosRepository).delete(l);
     
+        // Chama o método a ser testado
+        Throwable throwable = Assertions.catchThrowable(() -> lancamentosServicesImpl.deletar(l));
+        
+        // Verifica se a exceção foi lançada
+        Assertions.assertThat(throwable).isInstanceOf(NullPointerException.class);
+    
+        // Verifica se o método delete foi invocado
+        Mockito.verify(lancamentosRepository, Mockito.times(1)).delete(l);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void deveFiltrarLancamentos(){
+        Lancamentos lancamentos = LancamentoRepositoryTest.criarLancamento();
+        lancamentos.setId(1L);
+
+        List<Lancamentos> lista = Arrays.asList(lancamentos);    
+
+        Mockito.when( lancamentosRepository.findAll(Mockito.any(Example.class))).thenReturn(lista); 
+
+        List<Lancamentos> resultado = lancamentosServicesImpl.buscar(lancamentos);
+
+        Assertions.assertThat(resultado).isNotEmpty().hasSize(1).contains(lancamentos);
+    }
 
 }
