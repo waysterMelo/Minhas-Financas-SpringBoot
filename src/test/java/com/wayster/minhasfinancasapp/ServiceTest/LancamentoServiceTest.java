@@ -2,6 +2,8 @@ package com.wayster.minhasfinancasapp.ServiceTest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,8 +13,11 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Example;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import com.wayster.minhasfinancasapp.Controllers.Usuario;
 import com.wayster.minhasfinancasapp.Entity.Lancamentos;
 import com.wayster.minhasfinancasapp.Entity.StatusLancamento;
+import com.wayster.minhasfinancasapp.Entity.UserEntity;
 import com.wayster.minhasfinancasapp.Exception.RegraDeNegocioException;
 import com.wayster.minhasfinancasapp.Repositories.LancamentosRepository;
 import com.wayster.minhasfinancasapp.RepositoryTest.LancamentoRepositoryTest;
@@ -152,5 +157,30 @@ public class LancamentoServiceTest {
 
     }
 
+    @Test
+    public void deveObterUmLancamentoPorId(){
+        Long id = 1L;
+        Lancamentos lancamentos = LancamentoRepositoryTest.criarLancamento();
+        lancamentos.setId(id); 
+
+        Mockito.when(lancamentosRepository.findById(id)).thenReturn(Optional.of(lancamentos));
+
+         Optional<Lancamentos> rs =  lancamentosServicesImpl.obterPorId(id);
+
+         Assertions.assertThat(rs.isPresent()).isTrue();
+    }
+
+    @Test
+    public void shouldReturnNullWhenIdDoesntExists(){
+        Long id = 1L;
+        Lancamentos lancamentos = LancamentoRepositoryTest.criarLancamento();
+        lancamentos.setId(id); 
+
+        Mockito.when(lancamentosRepository.findById(id)).thenReturn(Optional.empty()); 
+
+         Optional<Lancamentos> rs =  lancamentosServicesImpl.obterPorId(id);
+
+         Assertions.assertThat(rs.isPresent()).isFalse();
+    }
 
 }
