@@ -1,6 +1,7 @@
 import React from 'react';
-import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
+import Button from 'react-bootstrap/Button';
+import Card from "../components/Card";
 
 class Login extends React.Component {
 
@@ -15,7 +16,7 @@ class Login extends React.Component {
 
     render() {
         return (<div className={'container'}>
-                <div className="row">
+                <div className={'row'}>
                     <div className="col-md-6" style={{position: 'relative', left: '300px'}}>
                         <div className="bs-docs-section">
                             <Card title={'Login'}>
@@ -36,8 +37,8 @@ class Login extends React.Component {
                                                            onChange={e => this.setState({senha: e.target.value})}
                                                            placeholder="Password" required/>
                                                 </FormGroup>
-                                                <button onClick={this.entrar} type={'button'} className={'btn btn-primary'}>Entrar</button>
-                                                <button onClick={this.entrar} type={'button'} className={'btn btn-danger'}>Cadastrar</button>
+                                                <Button onClick={this.entrar} type={'button'} className={'btn btn-primary'}>Entrar</Button>
+                                                <Button onClick={this.entrar} type={'button'} className={'btn btn-danger'}>Cadastrar</Button>
                                             </fieldset>
                                         </div>
                                     </div>

@@ -4,10 +4,10 @@ import React from 'react';
 class Card extends React.Component {
 
 render(){
-    return(
-        <div className={'card md-3'}>
-            <h3 className={'card-header'}>{this.props.title}</h3>
-            <div className={'card-body'}>{this.props.children}</div>
+    return (
+        <div className={'card'} style={{marginTop: '-8%'}}>
+            <h3 className={'card-header bg-light p-3'}>{this.props.title}</h3>
+            <div className={'card-body p-5'}>{this.props.children}</div>
         </div>
     )
 }
