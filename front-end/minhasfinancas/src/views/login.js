@@ -15,39 +15,39 @@ class Login extends React.Component {
     }
 
     render() {
-        return (<div className={'container'}>
-                <div className={'row'}>
-                    <div className="col-md-6" style={{position: 'relative', left: '300px'}}>
-                        <div className="bs-docs-section">
-                            <Card title={'Login'}>
-                                <div className="row">
-                                    <div className="col-lg-12">
-                                        <div className="bs-component">
-                                            <fieldset>
-                                                <FormGroup label={'Email'}>
-                                                    <input type="email" className="form-control"
-                                                           placeholder="Email" required
-                                                           value={this.state.email}
-                                                           onChange={e => this.setState({email: e.target.value})}
-                                                    />
-                                                </FormGroup>
-                                                <FormGroup>
-                                                    <input type="password" className="form-control"
-                                                           value={this.state.senha}
-                                                           onChange={e => this.setState({senha: e.target.value})}
-                                                           placeholder="Password" required/>
-                                                </FormGroup>
-                                                <Button onClick={this.entrar} type={'button'} className={'btn btn-primary'}>Entrar</Button>
-                                                <Button onClick={this.entrar} type={'button'} className={'btn btn-danger'}>Cadastrar</Button>
-                                            </fieldset>
-                                        </div>
+        return (
+                <div className={'row'} style={{marginTop: "5%"}}>
+                    <div className="col-md-6 mx-auto">
+                        <Card title={'Login'}>
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="bs-component">
+                                        <fieldset>
+                                            <FormGroup label={'Email'}>
+                                                <input type="email" className="form-control"
+                                                       placeholder="Email" required
+                                                       value={this.state.email}
+                                                       onChange={e => this.setState({email: e.target.value})}
+                                                />
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <input type="password" className="form-control"
+                                                       value={this.state.senha}
+                                                       onChange={e => this.setState({senha: e.target.value})}
+                                                       placeholder="Password" required/>
+                                            </FormGroup>
+                                            <Button onClick={this.entrar} type={'button'}
+                                                    className={'btn btn-primary mx-2'}>Entrar</Button>
+                                            <Button onClick={this.entrar} type={'button'}
+                                                    className={'btn btn-danger'}>Cadastrar</Button>
+                                        </fieldset>
                                     </div>
                                 </div>
-                            </Card>
-                        </div>
+                            </div>
+                        </Card>
                     </div>
                 </div>
-            </div>)
+        )
     }
 }
 

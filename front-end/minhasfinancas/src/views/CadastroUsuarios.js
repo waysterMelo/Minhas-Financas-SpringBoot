@@ -1,8 +1,9 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import {Col, Container, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import Card from "../components/Card";
+
 
 class CadastroUsuarios extends React.Component {
 
@@ -19,7 +20,6 @@ class CadastroUsuarios extends React.Component {
 
     render(){
         return(
-          <Container>
               <Row>
                     <Card title={'Cadastrar Usuários'}>
                         <Col className={'col-12 mx-auto'}>
@@ -56,7 +56,6 @@ class CadastroUsuarios extends React.Component {
                         </Col>
                     </Card>
               </Row>
-          </Container>
         )
     }
 }
