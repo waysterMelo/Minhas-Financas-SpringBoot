@@ -1,35 +1,27 @@
 import React from "react";
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import {Container} from "react-bootstrap";
+import NavBarItens from "./NavBarItens";
 
-
-function navBar(){
+function navBar(props){
     return (
-        <Navbar expand="lg" bg="dark" data-bs-theme="dark">
-            <Container className={'container-fluid'}>
-                <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#link">Link</Nav.Link>
-                        <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Another action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+        <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+            <div className="container">
+                <a href="/home" className="navbar-brand">Minhas Finanças</a>
+                <button className="navbar-toggler" type="button"
+                        data-toggle="collapse" data-target="#navbarResponsive"
+                        aria-controls="navbarResponsive" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarResponsive">
+                    <ul className="navbar-nav">
+                        <NavBarItens href="#/home" label="Home"/>
+                        <NavBarItens href="#/cadastro-usuarios" label="Usuários"/>
+                        <NavBarItens href="#/consulta-lancamentos" label="Lançamentos"/>
+                        <NavBarItens href="#/login" label="Sair"/>
+                    </ul>
+                </div>
+            </div>
+        </div>
     )
 }
 

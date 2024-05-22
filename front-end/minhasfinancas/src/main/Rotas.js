@@ -8,8 +8,8 @@ function Rotas(){
     return (
         <HashRouter>
             <Switch>
-                <Route exact path={'/'} component={Login}/>
-                <Route exact path={'/cadastro'} component={CadastroUsuarios}/>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/cadastro-usuarios" component={CadastroUsuarios} />
             </Switch>
         </HashRouter>
     )

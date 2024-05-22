@@ -20,7 +20,7 @@ class CadastroUsuarios extends React.Component {
 
     render(){
         return(
-              <Row>
+              <Row style={{marginTop: '10%'}}>
                     <Card title={'Cadastrar Usuários'}>
                         <Col className={'col-12 mx-auto'}>
                             <Form>
