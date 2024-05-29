@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
             throw new ErroAutentificacao("Usuário não encontrado para o email informado."); 
         }
 
-        boolean senhasBatem = usuario.get().getPassword() == senha;
+        boolean senhasBatem = usuario.get().getPassword().equals(senha);
 
         if (!senhasBatem) {
             throw new ErroAutentificacao("Senha inválida.");
