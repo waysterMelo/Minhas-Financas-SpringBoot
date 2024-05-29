@@ -2,6 +2,7 @@ import React from 'react';
 import FormGroup from "../components/FormGroup";
 import Card from "../components/Card";
 import {withRouter} from "react-router-dom";
+import axios from "axios";
 
 class Login extends React.Component {
 
@@ -9,9 +10,14 @@ class Login extends React.Component {
         email: '', senha: ''
     }
 
-    entrar=()=>{
-        console.log('Email:' + this.state.email)
-        console.log('Senha:' + this.state.senha)
+    entrar= () => {
+        axios.post('http://localhost:8080/usuarios/autenticar', {
+            email: this.state.email,
+            senha: this.state.senha
+        }).then(response => {console.log(response)})
+            .catch(error => {
+                console.log("Erro ao autenticar usuario", error.response ? error.response.data : error.message)
+            })
     }
 
     prepareCadastrar=()=>{
